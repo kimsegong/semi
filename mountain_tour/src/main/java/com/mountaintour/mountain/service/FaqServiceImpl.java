@@ -1,5 +1,6 @@
 package com.mountaintour.mountain.service;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.mountaintour.mountain.dao.FaqMapper;
@@ -16,6 +18,7 @@ import com.mountaintour.mountain.util.MyPageUtils;
 
 import lombok.RequiredArgsConstructor;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class FaqServiceImpl implements FaqService {
@@ -23,10 +26,12 @@ public class FaqServiceImpl implements FaqService {
   private final FaqMapper faqMapper;
   private final MyPageUtils myPageUtils;
 
+
   /**
-   * 전체 목록을 반환하는 메소드 입니다.
-   * MVC 페이징 처리 했습니다.
+   * 전체목록 메서드
+   * MVC 페이징 처리
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadFaqList(HttpServletRequest request, Model model) {
     
@@ -41,7 +46,7 @@ public class FaqServiceImpl implements FaqService {
                                    , "end", myPageUtils.getEnd());
     
     List<FaqDto> faqList = faqMapper.getFaqList(map);
-    
+
     // faqList, paging, beginNo, total 전달
     model.addAttribute("faqList", faqList);
     model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqList.do"));
@@ -51,8 +56,9 @@ public class FaqServiceImpl implements FaqService {
   }
   
   /**
-   * 검색 결과를 반환하는 메소드 입니다.
+   * 검색 메서드
    */
+  @Transactional(readOnly=true)
   @Override
   public void loadSearchList(HttpServletRequest request, Model model) {
     
@@ -79,10 +85,52 @@ public class FaqServiceImpl implements FaqService {
     List<FaqDto> faqList = faqMapper.getSearchFaq(map);
     
     model.addAttribute("faqList", faqList);
-    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqSearch.do?column=" + column + "&query=" + query));
+    model.addAttribute("paging", myPageUtils.getMvcPaging(request.getContextPath() + "/cs/faqSearch.do", "column=" + column + "&query=" + query));
     model.addAttribute("beginNo", total - (page -1) * display);
     model.addAttribute("total", total);
+  }
+  
+  /**
+   * 추가 메서드 
+   * (자주묻는질문 작성)
+   */
+  @Override
+  public int addFaq(HttpServletRequest request) {
+    String title = request.getParameter("title");
+    String contents = request.getParameter("contents");
+    FaqDto faq = FaqDto.builder()
+                  .title(title)
+                  .contents(contents)
+                  .build();
     
+    int addResult = faqMapper.insertFaq(faq);
+    return addResult;
+  }
+  
+  /**
+   * 수정 메서드
+   */
+  @Override
+  public int modifyFaq(HttpServletRequest request) {
+    String title = request.getParameter("title");
+    String contents = request.getParameter("contents");
+    int faqNo = Integer.parseInt(request.getParameter("faqNo"));
+    
+    FaqDto faq = FaqDto.builder()
+                  .title(title)
+                  .contents(contents)
+                  .faqNo(faqNo)
+                  .build();
+    int modifyResult = faqMapper.updateFaq(faq);
+    return modifyResult;
+  }
+  
+  /**
+   * 삭제 메서드
+   */
+  @Override
+  public int removeFaq(int faqNo) {
+    return faqMapper.deleteFaq(faqNo);
   }
   
 }

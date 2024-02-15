@@ -29,6 +29,10 @@
     font-size: large;
     font-weight: bold;
   }
+  .title {
+    color: #1a1a1a;
+    cursor: pointer;
+  }
   
   .listWrap1 .inquiry {
     text-decoration: underline;
@@ -39,27 +43,90 @@
   
   .listWrap2 {
     justify-content: center;
-    width: 70%;
-    margin: 30px auto;
-    margin-top: 20%;
+    width: 75%;
+    margin: 10% auto;
     
+  }
+  
+</style>
+<script>
+
+  /* 호출 */
+  $(() => {
+    fnWrite();
+    fnDetail();
+    fnAddResult();
+    fnRemove();
+  })
+
+
+  /* 로그인 검사 */
+  const fnloginCheck = () => {
+    if('${sessionScope.user}' === ''){
+      if(confirm('로그인 후 이용 가능합니다. 로그인 하시겠습니까?')){
+      location.href = '${contextPath}/user/login.form';
+      return;
+      } 
+    }
+  }
+  
+  /* 작성하기 가능 유무 */
+  const fnWrite = () => {
+  $('#btn_inquiry_write').click(() => {
+      if('${sessionScope.user}' !== ''){
+      location.href = '${contextPath}/cs/addInquiry.form';
+      return;
+      }
+      fnloginCheck();
+    })
   }
 
   
-</style>
+  /* 상세보기 가능 유무 */
+  const fnDetail = () => {
+    $('.title').click(() => {
+      fnloginCheck();
+    })
+  }
+  
+  /* 문의 작성시 전달되는 데이터 값 */
+  const fnAddResult = () => {
+    let addResult = '${addResult}';
+    if(addResult !== ''){
+      if(addResult === '1'){
+      alert('문의글이 등록되었습니다.');
+      } else {
+      alert('문의글이 등록되지 않았습니다.');
+      }
+    }
+  }
+  
+  /* 문의 삭제시 전달되는 데이터 값 */
+  const fnRemove = () => {
+    let removeResult = '${removeResult}';
+    if(removeResult !== ''){
+      if(removeResult === '1'){
+      alert('문의글이 삭제되었습니다.');
+      } else {
+      alert('문의글이 삭제되지 않았습니다.');
+      }
+    }
+  }
+
+
+</script>
  
   <div class="container text-center">
   <div class="row">
     <div class="col-1">      
     </div>
-    <div class="col-10" style = "border: 1px gray solid; height: 1200px" >
-      <!--  여기다가 작성 다 작성하고 height 지우기!!!! -->
+    <div class="col-10" style = "border: 1px gray solid;" >
       
       
       
       <div class="mainWrap">
       
-        <%-- 각 페이지로 이동가능한 목록 --%>
+        <%-- 각 문의 페이지로 이동가능한 목록 --%>
         <div class="listWrap1">
           <div class="faq">
             <a href="${contextPath}/cs/faqList.do" >자주 묻는 질문</a>
@@ -71,15 +138,16 @@
         
         <%-- 자주묻는질문 목록이 표시될 div --%>
         <div class="listWrap2">
-          <div>
-            <span>총 ()개</span>
+          <div style="text-align: right;">
+            <button id="btn_inquiry_write"  class="btn btn-success">문의작성</button>
           </div>
+          <div style="text-align: left;">총 ${total}개</div>
           <div>
             <table border="1" class="table table-hover">
               <thead>
                 <tr>
                   <th scope="col">문의번호</th>
-                  <th scope="col">상품</th>
+                  <th scope="col">여행번호</th>
                   <th scope="col">제목</th>
                   <th scope="col">작성자</th>
                   <th scope="col">작성일</th>
@@ -87,38 +155,30 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                  <td >테스트1</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                  <td >테스트2</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                  <td >테스트3</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                  <td >테스트4</td>
-                </tr>
+                <c:forEach items="${inquiryList}" var="inq" >
+                  <tr>
+                    <th scope="row">${inq.inquiryNo}</th>
+                    <td>${inq.productDto.productNo}</td>
+                    <td> 
+                      <c:if test="${sessionScope.user.auth == 0 or sessionScope.user.userNo == inq.userDto.userNo}">                      
+                        <a href="${contextPath}/cs/inquiryDetail.do?inquiryNo=${inq.inquiryNo}" class="title">${inq.inquiryTitle}</a>
+                      </c:if>
+                      <c:if test="${sessionScope.user.auth != 0 and sessionScope.user.userNo != inq.userDto.userNo}">                      
+                        <a class="title">${inq.inquiryTitle}</a>
+                      </c:if> 
+                    </td>
+                    <td>${inq.userDto.name}</td>
+                    <td><fmt:formatDate value="${inq.createdAt}" pattern="yy/MM/dd" /></td>
+                    <td>
+                      <c:if test="${inq.answerNo != 0}">
+                        <div>답변완료</div>
+                      </c:if>
+                      <c:if test="${inq.answerNo == 0}">
+                        <div>예정</div>
+                      </c:if>
+                    </td>
+                  </tr>
+                </c:forEach>
               </tbody>
               <tfoot>
                 <tr>
@@ -128,25 +188,22 @@
             </table>
             <div>
               <form method="get" action="${contextPath}/cs/inquirySearch.do">
-                <select name="column">
+                <select name="column" class="form-select-sm" style="height: 40px">
                   <option value="INQUIRY_TITLE">제목</option>
+                  <option value="NAME">작성자</option>
                   <option value="INQUIRY_NO">문의번호</option>
+                  <option value="PRODUCT_NO">여행번호</option>
                 </select>
-                <input type="text" name="query" placeholder="검색어 입력">
-                <button type="submit" >검색</button>
+                <input type="text" name="query" id="query" class="form-control-sm" placeholder="검색어 입력" >
+                <button type="submit" class="btn btn-outline-success" >검색</button>
               </form>
             </div>
           </div>
         </div>
         
       </div>
-
-
-
-
-
-
-
+      
+      
 
 
     </div>
@@ -155,7 +212,19 @@
   </div>
 </div>
   
- 
+
+
+
+
+
+
+
+
+
+
+
+
+
  
  
  

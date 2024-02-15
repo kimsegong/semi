@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration
+<!DOCTYPE configuration 
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-config.dtd">
 
@@ -23,7 +23,11 @@
 		<typeAlias alias="PaymentDto" type="com.mountaintour.mountain.dto.PaymentDto"/>
 		<typeAlias alias="TouristDto" type="com.mountaintour.mountain.dto.TouristDto"/>
 		<typeAlias alias="UserDto" type="com.mountaintour.mountain.dto.UserDto"/>
-		<typeAlias alias="productDto" type="com.mountaintour.mountain.dto.MagazineDto"/>
+		<typeAlias alias="MagazineDto" type="com.mountaintour.mountain.dto.MagazineDto"/>
+		<typeAlias alias="MagazineMultiDto" type="com.mountaintour.mountain.dto.MagazineMultiDto"/>
+		<typeAlias alias="MagazineStarDto" type="com.mountaintour.mountain.dto.MagazineStarDto"/>
+		<typeAlias alias="ReviewDto" type="com.mountaintour.mountain.dto.ReviewDto"/>
+		<typeAlias alias="LeaveUserDto" type="com.mountaintour.mountain.dto.LeaveUserDto"/>
 		
   </typeAliases>
 

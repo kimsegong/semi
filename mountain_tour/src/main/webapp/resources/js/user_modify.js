@@ -13,8 +13,8 @@ $(() => {
 
 
 /* 전역변수 선언 */
-var namePassed = false;
-var mobilePassed = false;
+var namePassed = true;
+var mobilePassed = true;
 
 
 /* 함수 정의 */
@@ -59,12 +59,10 @@ const fnCheckMobile = () => {
 
 const fnModifyUser = () => {
   $('#btn_modify').click(() => {
-    if(!namePassed){
-      alert('이름을 확인하세요.');
-      return;
-    } else if(!mobilePassed){
+    if(!mobilePassed){
       alert('휴대전화번호를 확인하세요.');
       return;
+   
     }
     $.ajax({
       // 요청
@@ -79,6 +77,7 @@ const fnModifyUser = () => {
         } else {
           alert('회원 정보가 수정되지 않았습니다.');
         }
+        
       }
     })
   })

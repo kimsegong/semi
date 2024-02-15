@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class ImageDto {
-	private int imageNo;
     private String imagePath;
     private String filesystemName;
+    private int thumbnail;  
     private int productNo;
 }

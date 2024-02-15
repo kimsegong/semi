@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class HeartDto {
 	private int userNo;
-    private int productNo;
+    private ProductDto productDto;
 }

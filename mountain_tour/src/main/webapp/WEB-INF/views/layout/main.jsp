@@ -65,6 +65,26 @@
 </div>
 </div>
 
+
+<script>
+  const fnBest = () => {
+	  $.ajax({ 
+		    method: 'get', 
+		    url: '${contextPath}/mountain/main/best.do' , 
+		    dataType: 'json',  
+		    success : function (resData) {
+		        console.log(resData.product+'123');
+		        
+		    },
+		    error: function () {
+		        console.log('asd')
+		    }
+		})
+  	
+  }
+
+fnBest(); 
+</script>
   
   
 

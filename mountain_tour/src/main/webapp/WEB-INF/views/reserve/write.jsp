@@ -9,6 +9,7 @@
   <jsp:param value="예약" name="title"/>
 </jsp:include>
 
+
  
   <div class="container text-center">
   <div class="row">
@@ -28,169 +29,118 @@
           <h2>예약하기</h2>
         </div>
         <hr>
-        <button type="button" onclick="location.href='javascript:history.back()'">이전으로</button>
         <div>
           <h4>상품정보</h4>
         </div>
         <div>
-          <table>
+          <table class="table">
             <colgroup>
               <col style="width:100px;">
               <col style="width:*;">
             </colgroup>
             <tbody>
               <tr>
-                <td>상품명</td>
-                <td>?????</td> <!-- 상품명이 들어가야함 -->
+                <td class="table-active"><strong>상품명</strong></td>
+                <td>${product.tripName}</td> <!-- 상품명이 들어가야함 -->
               </tr>
               <tr>
-                <td>일정</td>
+                <td class="table-active"><strong>일정</strong></td>
                 <td>
                   <div>
                     출발일 : 
-                    <span>??</span>
+                    <fmt:parseDate value="${resDate}" var="parsedDate" pattern="MM/dd/yyyy" />
+                    <fmt:formatDate value="${parsedDate}" pattern="yyyy/MM/dd (E)" type="date"/>
                   </div>
                   <div>
-                    도착일 : 
-                    <span>??</span>
+                    소요시간 : 
+                    <span>${product.timetaken}</span>
                   </div>
                 </td> 
               </tr>      
             </tbody>
           </table>
         </div>
-        
-        <hr>
-        
-        <!-- 예약자 정보 -->  
-        <form id="frm_res_user" name="frmResUser" method="post">
-          <div>
-            <h4>예약자 정보</h4>
-          </div>
-          <div>
-            <table>
-              <colgroup>
-                <col style="width:11%;">
-                <col style="width:*;">
-              </colgroup>
-              <tbody>
-                <tr>
-                  <td>예약자명</td>
-                  <td>로그인한 회원이름</td> <!-- 로그인한 회원의 이름 -->
-                </tr>
-                <tr>
-                  <td>연락처</td>
-                  <td>
-                    <div class="phone_number">
-                      <select class="select" name="resMobile1" id="resMobile1">
-                        <option value="">선택</option>
-                        <option value="010">010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                        <option value="017">017</option>
-                        <option value="018">018</option>
-                        <option value="019">019</option>
-                      </select>
-                      <input type="text" class="inpMob" name="resMobile2" id="resMobile2" maxlength="4">
-                      <input type="text" class="inpMob" name="resMobile3" id="resMobile3" maxlength="4">
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>요청사항</td>
-                  <td>
-                    <textarea class="textarea" name="resReq" id="resReq" cols="30" rows="10" placeholder="좌성배정 불가능"></textarea>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </form>      
-        
-        <hr>
         <!-- 요금 및 여행인원 -->
-        <form id="frm_price" name="frmPrice" method="post">
-          <div>
-            <h4>요금 및 여행인원</h4>
-          </div>
-          <div>
-          
-            <table>
-              <colgroup>
-                <col>
-                <col style="width:11%;">
-                <col style="width:11%;">
-                <col style="width:10%;">
-                <col style="width:10%;">
-                <col style="width:14%;">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>요금구분</th>
-                  <th>성인요금</th>
-                  <th>소아요금</th>
-                  <th>성인인원</th>
-                  <th>소아인원</th>
-                  <th>합계</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td></td>
-                  <td id="adultPrice">???</td>
-                  <td id="childPrice">???</td>
-                  <td>
-                    <select name="adultCnt">
-                      <option value="0">0명</option>
-                      <option value="1">1명</option>
-                      <option value="2">2명</option>
-                      <option value="3">3명</option>
-                      <option value="4">4명</option>
-                      <option value="5">5명</option>
-                    </select>
-                  </td>
-                  <td>
-                    <select name="childCnt">
-                      <option value="0">0명</option>
-                      <option value="1">1명</option>
-                      <option value="2">2명</option>
-                      <option value="3">3명</option>
-                      <option value="4">4명</option>
-                      <option value="5">5명</option>
-                    </select>
-                  </td>
-                  <td>
-                    <span id="totalPriceOne">
-                    계산된 합계금액????
-                    </span>
-                    원
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="3">총계</td>
-                  <td>
-                    <span id="adultCntVal">?</span>명
-                  </td>
-                  <td>
-                    <span id="childCntVal">?</span>명
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
-        </form>  
+        <div style="margin-top: 50px;">
+          <h4>요금 및 여행인원</h4>
+        </div>
+        <div>
+          <table class="table">
+            <colgroup>
+              <col>
+              <col style="width:11%;">
+              <col style="width:11%;">
+              <col style="width:10%;">
+              <col style="width:10%;">
+              <col style="width:14%;">
+            </colgroup>
+            <thead>
+              <tr class="table-active">
+                <th>요금구분</th>
+                <th>성인요금</th>
+                <th>소아요금</th>
+                <th>성인인원</th>
+                <th>소아인원</th>
+                <th>합계</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td id="adultPrice">${product.price}</td> <!-- 상품가격 -->
+                <td id="childPrice">${product.price}</td> <!-- 성인요금에서 금액변동 적용하기 -->
+                <td>
+                  <select name="adultCnt">
+                    <c:forEach var="cnt" begin="0" end="20" step="1"> <!-- end값으로 product.person(최대인원수) 적용하기 -->
+                      <option class="adtCnt" value="${cnt}">${cnt}명</option>
+                    </c:forEach>
+                  </select>
+                </td>
+                <td>
+                  <select name="childCnt">
+                    <c:forEach var="cnt" begin="0" end="20" step="1"> <!-- end값으로 product.person(최대인원수) 적용하기 -->
+                      <option class="cldCnt" value="${cnt}">${cnt}명</option>
+                    </c:forEach>
+                  </select>
+                </td>
+                <td>
+                  <span id="totalPriceOne">
+                  <!-- 계산된 총 금액 -->
+                  
+                  </span>
+                  원
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">총계</td>
+                <td>
+                  <span class="adultCntVal">0</span>명
+                </td>
+                <td>
+                  <span class="childCntVal">0</span>명
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
         
-        <hr>
         <!-- 여행자 정보 -->
-        <form id="frm_tourist" name="frm_tourist" method="post">
+        <form id="frm_tourist"  method="post">
           <div>
             <div>
               <h4>여행자 정보</h4>
+              <span id="msg_mobile"></span>
             </div>
-            <table>
-              
+            <table class="table">
+              <colgroup>
+                <col style="width:5%;">
+                <col style="width:11%;">
+                <col style="width:10%;">
+                <col style="width:10%;">
+                <col style="width:30%;">
+              </colgroup>
               <thead>
                 <tr>
                   <th>구분</th>
@@ -201,77 +151,145 @@
                 </tr>
               </thead>
               <tbody id="inp_tourist">
-                <!-- 여행인원 선택시 선택한만큼 추가되어야 함 -->
-                <tr>
-                  <td>
-                    <span>성인??소아??</span>
-                    <span class="ageNum">몇번째??</span>
-                  </td> 
-                  <td>
-                    <input type="text" name="touristName" maxlength="10">
-                  </td>
-                  <td>
-                    <input type="date" name="birthDate" max="9999-12-31">
-                  </td>
-                  <td>
-                    <select name="gender">
-                      <option value="">선택</option>
-                      <option value="M">남</option>
-                      <option value="F">여</option>
-                    </select>
-                  </td>
-                  <td> 
-                    <input type="text" class="inpMob" name="tourContact1" id="tourContact1" style="width: 32%;" maxlength="4">
-                    <input type="text" class="inpMob" name="tourContact2" id="tourContact2" style="width: 32%;" maxlength="4">
-                    <input type="text" class="inpMob" name="tourContact3" id="tourContact3" style="width: 32%;" maxlength="4">
-                  </td>
-                </tr>
+              <!-- 여행인원 선택시 선택한만큼 추가되어야 함 -->
               </tbody>
-            </table>      
+            </table>
+               
           </div>
         </form>
         
-        <hr>
-        <!-- 픽업장소 선택 -->
-        <form id="frm_pickup" name="frmPickup" method="post">
+        
+        <!-- 예약 정보 -->
+        <!-- 받아올 정보 : userNo, productNo -->  
+        <form id="frm_reserve" >
+          <div style="margin-top: 50px;">
+            <h4>예약자 정보</h4>
+          </div>
+          <div>
+            <table class="table">
+              <colgroup>
+                <col style="width:11%;">
+                <col style="width:*;">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td class="table-active">예약자명</td>
+                  <td>${sessionScope.user.name}</td> <!-- 로그인한 회원의 이름 -->
+                </tr>
+                <tr>
+                  <td class="table-active">연락처</td>
+                  <td>
+                    <span>${sessionScope.user.mobile}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="table-active">요청사항</td>
+                  <td>
+                    <textarea class="textarea form-control" name="resReq" id="resReq" cols="30" rows="5" placeholder="좌석배정 불가능"></textarea>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <input type="hidden" name="userNo" value="${sessionScope.user.userNo}">
+          <input type="hidden" name="productNo" value="${product.productNo}">
+          <input type="hidden" name="resStart" value="${resDate}">
+          <!-- 
+          <input type="hidden" name="resFinish" value="${resDate}">
+          -->
+        
+          <!-- 픽업장소 선택 -->
           <div>
             <h4>승차장소 선택</h4>
           </div>
           <div>
-            총<span class="total">?</span>명
+            총<span class="totalPerson">0</span>명
+            <input type="hidden" id="reservePerson" name="reservePerson" class="totalPerson">
           </div>
-          <div>
-            <ul>
-              <li>
-                <span>서울역</span>
-                <select name="personCnt" class="select">
-                  <!-- 총 명수만큼 생성되어야 함(반복문) -->
-                  <option value="0">0명</option>
-                  <option value="1">1명</option>
-                  <option value="2">2명</option>
-                </select>
+          <div class="d-grid gap-2 col-2 mx-auto">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="byOwn" value="자차" checked>
+                <label class="form-check-label" for="byOwn">자차 이용</label> 
               </li>
-              <li>
-                <span>영등포역</span>
-                <select name="personCnt" class="select">
-                  <!-- 총 명수만큼 생성되어야 함(반복문) -->
-                  <option value="0">0명</option>
-                  <option value="1">1명</option>
-                  <option value="2">2명</option>
-                </select>
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="pickupSeoul" value="서울역" >
+                <label class="form-check-label" for="pickupSeoul">서울역</label> 
+              </li>
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="radio" name="pickupLoc" id="pickupDDP" value="동대문">
+                <label class="form-check-label" for="pickupDDP">동대문</label> 
               </li>
             </ul>
           </div>
-        </form>  
+            
+          <hr>  
           
-        <hr>  
+    
+          <!-- 약관 동의 -->
+          <div class="agreeFrom">
+            <h4>약관 동의</h4>
+          </div>
+            <div>
+              <table class="table">
+                <tbody class="d-grid gap-2 col-6 mx-auto">
+                  <tr>
+                    <td>
+                      <div>
+                        <span>
+                          <input type="checkbox" id="chkAgree" name="chkAgree" value="0" class="chk_each">
+                          <label for="chkAgree">개인정보 수집에 동의합니다(필수)</label>
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="#" >자세히</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div>
+                        <span>
+                          <input type="checkbox" id="chkMarketing" name="chkAgree" value="1" class="chk_each">
+                          <label for="chkMarketing">마케팅 이용 정보 수집에 동의합니다(선택)</label>
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <a href="#" >자세히</a>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot class="d-grid gap-2 col-6 mx-auto">
+                  <tr>
+                    <td>
+                      <div>
+                        <span>
+                          <input type="checkbox" id="chkAll">
+                          <label for="chkAll">모든 약관에 동의합니다.</label>
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+         
+          
+          <div class="d-grid gap-2 col-6 mx-auto" >
+            <button type="button" id="btn_reserve" class="btn btn-success">예약하기</button>
+            
+          </div>
+        </form>
+
         <!-- 결제정보 -->
+        <!-- 따로 구현 -->
         <div>
           <form id="frm_pay" name="frmPay" method="post">
             <div>
               <h4>결제정보</h4>
             </div>
-            <table>
+            <table >
               <colgroup>
                 <col style="width:13%;">
                 <col style="width:*;">
@@ -281,9 +299,9 @@
                   <th>총 여행인원</th>
                   <td>
                     성인 : 
-                    <span>?</span>
+                    <span class="adultCntVal">0</span>
                      명 / 소아 : 
-                    <span>?</span>
+                    <span class="childCntVal">0</span>
                      명
                   </td>
                 </tr>
@@ -323,40 +341,6 @@
         </div>
         
         <hr>
-        <!-- 약관 동의 -->
-        <div class="agreeFrom">
-          <h4>약관 동의</h4>
-        </div>
-        <div>
-          <table>
-            <tbody>
-              <tr>
-                <td>
-                  <div>
-                    <span>
-                      <input type="checkbox" id="chkAgree" name="chkAgree" value="0">
-                      <label for="chkAgree">개인정보 수집에 동의합니다(필수)</label>
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <a href="#" >자세히</a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div>
-          <span>
-            <input type="checkbox" id="chkAll">
-            <label for="chkAll">모든 약관에 동의합니다.</label>
-          </span>
-        </div>
-        <div>
-          <button type="button" onclick="location.href='${contextPath}/reserve/detail.do'">예약하기</button>
-          <button type="button" onclick="location.href='${contextPath}/reserve/list.do'">내예약목록</button>
-        </div>
-        
         
       </div>
 
@@ -371,8 +355,236 @@
 
 
 <script>
-	var optNum = 0;
+
+
+	var mobilePassed = false;
 	
+	// insertReserve 필요한 데이터
+	// frm_res_user : userNo,productNo 'hidden', resReq
+	// frm_pickup : pickupLoc, reservePerson(총예약인원수)
+	// frm_agree : chkAgree
+
+
+	/*
+
+	function fnReserve(){
+  	  $("#btn_reserve").click(function(e) {
+      	
+        var userData = $("#frm_res_user").serialize();
+        var pickupData = $('#frm_pickup').serialize();
+        var agreeData = $('#frm_agree').serialize();
+        var formData = userData + "&" + pickupData + "&" + agreeData;
+        $.post('${contextPath}/reserve/addReserve.do', formData)
+          .done(function(resData) {
+            // 요청이 성공적으로 완료된 후의 동작을 여기에 작성합니다.
+            if(resData.addResult !== 0){
+              alert('예약등록 성공');
+            	
+            }
+          })
+          .fail(function() {
+            // 요청이 실패한 경우의 동작을 여기에 작성합니다.
+            alert('예약실패');
+          });
+      });
+	}
+
+	*/
+	
+	function fnAddReserve(){
+		$('#btn_reserve').click(function(ev){
+			/*
+			if(!$('#chkAgree').is(':checked')){
+	  			  alert('필수 약관에 동의하세요.');
+	  			  this.preventDefault();
+	  			  return;
+	  		}*/
+	  		fnRegTotalPerson();
+	  		fnRegInputName();
+	  		fnRegInputMobile();
+	  		fnRegAgree();
+			$.ajax({
+				type: 'post',
+				url: '${contextPath}/reserve/addReserve.do',
+				data: $('#frm_reserve').serialize(),
+				dataType: 'json',
+				success: function(resData){
+					if(resData.addReserveResult === 1){
+						alert('예약이 등록되었습니다.');
+						fnAddTourist(resData.reserveNo);
+					}
+				}
+			})
+		})
+	}	
+	
+	
+	function fnAddTourist(reserveNo){  // reserveNo를 인수로 받음
+		$('#frm_tourist').append($('<input>').attr({
+			type: 'hidden',
+			name: 'reserveNo',
+			value: reserveNo  // reserveNo를 폼에 추가
+		}));
+		$('#frm_tourist').attr('action', '${contextPath}/reserve/addTourist.do');
+		$('#frm_tourist').submit();
+	}
+	
+
+	//  요금 옵션 선택시 총금액, 총인원수 반영
+	function fnChangeTotalPrice(){
+	  $(document).ready(function() {
+        $('select[name="adultCnt"], select[name="childCnt"]').change(function() {
+          var adultCount = parseInt($('select[name="adultCnt"]').val());
+          var childCount = parseInt($('select[name="childCnt"]').val());
+          
+          var adultPrice = parseInt($('#adultPrice').text());
+          var childPrice = parseInt($('#childPrice').text());
+          
+          var totalPrice = (adultCount * adultPrice) + (childCount * childPrice);
+          $('#totalPriceOne').text(totalPrice);
+          $('#totalPrice').text(totalPrice);
+          $('.adultCntVal').text(adultCount);
+          $('.childCntVal').text(childCount);
+          $('.totalPerson').text(adultCount + childCount);
+          $('.totalPerson').attr('value', (adultCount + childCount));
+        });
+      });
+	}
+	
+	// 성인, 소아 선택한 만큼 입력창 생성메소드
+	function fnAddTouristForm(){
+	  	$(document).ready(function() {
+        	$('select[name="adultCnt"], select[name="childCnt"]').change(function() {
+          		var adultCount = parseInt($('select[name="adultCnt"]').val());
+          		var childCount = parseInt($('select[name="childCnt"]').val());
+          		
+          		$('#inp_tourist').empty();
+    	  		let str = '';
+    	  		if(adultCount !== 0){
+    	  		  for(let i = 1; i <= adultCount; i++){
+    		  	  	  str += '<tr>';
+        		  	  str += '  <td><span>성인 </span><span class="ageNum">' + i + '</span></td>';
+        		  	  str += '  <input type="hidden" name="ageCase" value="0">';
+    		  	  	  str += '  <td><input type="text" name="touristName" maxlength="10"></td>';
+          		      str += '  <td><input type="date" name="birthDate" max="9999-12-31"></td>';
+          		      str += '  <td>';
+          	          str += '    <select name="gender">';
+          	          str += '		<option value="">선택</option>';
+          	          str += '  	<option value="M">남</option>';
+          	          str += '  	<option value="F">여</option>';
+          	   	      str += '     </select>';
+          	   	      str += '  </td>';
+          		      str += '  <td>'; 
+         		      str += '    <input type="text" class="inpMob tourContact" name="tourContact" maxlength="11">';
+      			      str += '  </td>';
+          		      str += '</tr>';
+        	      }
+    	  		}
+    	  		if(childCount !== 0){
+    	  			for(let i = 1; i <= childCount; i++){
+      		  	  	  str += '<tr>';
+          		  	  str += '  <td><span>소아 </span><span class="ageNum">' + i + '</span></td>';
+          		  	  str += '  <input type="hidden" name="ageCase" value="1">';
+      		  	  	  str += '  <td><input type="text" name="touristName" maxlength="10"></td>';
+            		  str += '  <td><input type="date" name="birthDate" max="9999-12-31"></td>';
+            		  str += '  <td>';
+            	      str += '    <select name="gender">';
+            	      str += '		<option value="">선택</option>';
+            	      str += '  	<option value="M">남</option>';
+            	      str += '  	<option value="F">여</option>';
+            	   	  str += '     </select>';
+            	   	  str += '  </td>';
+            		  str += '  <td>'; 
+            		  str += '    <input type="text" class="inpMob tourContact" name="tourContact" maxlength="11">';
+        			  str += '  </td>';
+            		  str += '</tr>';
+          	      }
+    	  		}
+    			$('#inp_tourist').append(str);
+            });
+        });
+	}
+  
+	function fnRegTotalPerson(){
+		var reservePerson = parseInt($('#reservePerson').val());
+		if(isNaN(reservePerson) || reservePerson < 1){
+			alert('여행 인원을 선택해주세요');
+			ev.preventDefault();
+			return;
+		}
+	}
+	
+	
+	function fnRegInputName(){
+		var inputs = document.getElementsByName("touristName");
+		var hasEmptyValue = false;
+    	for (var i = 0; i < inputs.length; i++) {
+    	  var inputValue = inputs[i].value.trim();
+    
+    	  if (inputValue === "") {
+    	    hasEmptyValue = true;
+    	    break;
+    	  }
+    	}
+    
+    	if (hasEmptyValue) {
+    	  alert("이름은 필수 항목입니다.");
+    	  ev.preventDefault();
+    	  return;
+    	}
+	}
+	
+	function fnRegInputMobile(){
+		var inputM = document.getElementsByName("tourContact");
+		var hasEmptyM = false;
+    	for (var i = 0; i < inputM.length; i++) {
+    	  var inputValue = inputM[i].value.trim();
+    	  let regMobile = /^010[0-9]{8}$/;
+    	  mobilePassed = regMobile.test(inputM.value);
+    	  if (inputValue === "" && !mobilePassed) {
+    	    hasEmptyM = true;
+    	    break;
+    	  }
+    	}
+    	if (hasEmptyM) {
+    	  alert("연락처를 확인해주세요.");
+    	  ev.preventDefault();
+    	  return;
+    	}
+	}
+	
+	
+    function fnRegAgree(){
+	  if(!$('#chkAgree').is(':checked')){
+		  alert('필수 약관에 동의하세요.');
+		  ev.preventDefault();
+		  return;
+	  }
+    }
+  
+    
+    function fnChkAll(){
+    	  $('#chkAll').click(function(){
+    		  $('#chkAgree').prop('checked', $(this).prop('checked'));
+    		  $('#chkMarketing').prop('checked', $(this).prop('checked'));
+    	  })
+    }
+    
+    
+    function fnChkEach(){
+    	$('.chk_each').click(function(){
+    		  var total = 0;
+  			  total += $('#chkAgree').prop('checked');
+  			  total += $('#chkMarketing').prop('checked');
+    		  $('#chkAll').prop('checked', total === $('.chk_each').length);
+    	})
+    }	
+    
+	fnChangeTotalPrice();
+	fnAddTouristForm();
+	fnAddReserve();
+	fnChkAll();
+	fnChkEach();
 </script> 
  
  

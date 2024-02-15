@@ -22,9 +22,11 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/owl.theme.default.css" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="${contextPath}/resources/js/ckeditor.js?dt=${dt}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/decoupled-document/ckeditor.js"></script>
 <script src="${contextPath}/resources/js/owl.carousel.min.js?dt=${dt}"></script> 
 <script src="${contextPath}/resources/js/app.js?dt=${dt}"></script> 
+
+
 
 <!-- ck 에디터 쓸지 네이버 쓸지 정해야함  -->
 </head>
@@ -35,9 +37,20 @@
     </div>
     
     <div class="div_login position-absolute bottom-0 end-0">
-      <span class="banner_login"><a href='${contextPath}/user/login.form'>로그인</a></span>
-      <span class="banner_join"><a href='#'>회원가입</a></span>
-
+      <c:if test="${sessionScope.user == null}">       
+        <span class="banner_login"><a href='${contextPath}/user/login.form'>로그인</a></span>
+        <span class="banner_join"><a href='${contextPath}/user/agree.form'>회원가입</a></span>
+      </c:if>  
+      <c:if test="${sessionScope.user.auth == 1}">
+         <div class="userName">${sessionScope.user.name}</div>
+         <span class="banner_login"><a href='${contextPath}/user/mypage.form'>마이페이지</a></span>
+         <span class="banner_join"><a href='${contextPath}/user/logout.do'>로그아웃</a></span>
+      </c:if>  
+      <c:if test="${sessionScope.user.auth == 0}">
+         <div class="userName">${sessionScope.user.name}</div>
+         <span class="banner_login"><a href='${contextPath}/manage/memberList.form'>관리자페이지</a></span>
+         <span class="banner_join"><a href='${contextPath}/user/logout.do'>로그아웃</a></span>
+      </c:if>  
     </div>
   </div>
   
@@ -68,18 +81,5 @@
 </nav>
   
 <script>
-  const fnAfterLogin = () => {
-		  var str ='';
-	    if('${sessionScope.auth}' === 0){
-	    	$('.banner_login').empty();
-			  srt += '<a href="${contextPath}/manage/memberList.do">관리자 페이지</a>';
-		  } else if('${sessionScope.auth}' === 1){
-			  $('.banner_login').empty();
-			  srt += '<a href="${contextPath}/user/mypage.do">마이페이지</a>';
-		  }
-		  $('.banner_login').append(str);		  
-  }
-
-
-  fnAfterLogin();
+ 
 </script> 

@@ -1,6 +1,6 @@
 package com.mountaintour.mountain.dto;
 
-import java.sql.Date;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +14,11 @@ import lombok.NoArgsConstructor;
 public class TouristDto {
   private int touristNo;
   private String name;
-  private Date birthDate;
+  private String birthDate;
   private String gender;
   private String contact;
   private int ageCase;
+  
+  @JsonBackReference
   private ReserveDto reserveDto; // private int reserveNo;
 }

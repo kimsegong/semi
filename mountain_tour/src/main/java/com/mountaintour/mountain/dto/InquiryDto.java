@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 public class InquiryDto {
   
   private int inquiryNo;
+  private String inquiryTitle;
+  private String inquiryContents;
+  private String ip;
+  private Date createdAt;
+  private int answerNo;
   private UserDto userDto;       // int userNo
   private ProductDto productDto; // int productNo
-  private String inquiryTitle;
-  private String inauiryContents;
-  private String ip;
-  private int hit;
-  private Date createdAt;
 
 }
 

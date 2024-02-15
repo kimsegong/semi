@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class MountainDto {
 	private int mountainNo;
     private String mountainName;
-    private String information;
+    private String impormation;
     private String location;
 }

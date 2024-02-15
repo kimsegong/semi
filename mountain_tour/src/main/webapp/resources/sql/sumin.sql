@@ -21,11 +21,11 @@ DROP TABLE MAGAZINE_T;
 
 -- 매거진 테이블
 CREATE TABLE MAGAZINE_T (
-	MAGAZINE_NO NUMBER	           NOT NULL,  -- 매거진 번호
-	USER_NO	    NUMBER		       NOT NULL,  -- 회원 번호
-	TITLE	    VARCHAR2(100 BYTE) NOT NULL,  -- 매거진 제목
-	CONTENTS	CLOB		       NOT NULL,  -- 매거진 내용
-    SUMMARY     VARCHAR2(400 BYTE) NULL,      -- (리스트용) 요약
+    MAGAZINE_NO NUMBER	           NOT NULL,  -- 매거진 번호
+    USER_NO	    NUMBER		       NOT NULL,  -- 회원 번호
+    TITLE	    VARCHAR2(100 BYTE) NOT NULL,  -- 매거진 제목
+    CONTENTS	CLOB		       NOT NULL,  -- 매거진 내용
+    SUMMARY     VARCHAR2(2000 BYTE) NULL,      -- (리스트용) 요약
     HIT	        NUMBER		       DEFAULT 0, -- 매거진 조회수
     CREATE_AT	DATE	           NULL,      -- 매거진 작성날짜
     PRODUCT_NO	NUMBER		       NOT NULL,  -- 상품 번호
@@ -36,7 +36,7 @@ CREATE TABLE MAGAZINE_T (
 
 -- 매거진 멀티미디어
 CREATE TABLE MAGAZINE_MULTI_T (
-	MAGAZINE_NO	 NUMBER	       NOT NULL,  -- 매거진 번호
+	MAGAZINE_NO	 NUMBER	            NULL,  -- 매거진 번호
 	MULTI_PATH	 VARCHAR2(100 BYTE) NULL, -- 멀티미디어 경로
 	FILESYS_NAME VARCHAR2(100 BYTE) NULL, -- 파일 이름
     IS_THUMBNAIL NUMBER             NULL, -- 썸네일로 쓰이는 사진 구분

@@ -110,6 +110,7 @@ CREATE TABLE LEAVE_USER_T (
 
 --**********************************************************************************
 
+
 -- 산 테이블
 CREATE TABLE MOUNTAIN_T (
 	MOUNTAIN_NO	  NUMBER		     NOT NULL,  -- 산 번호 
@@ -119,52 +120,47 @@ CREATE TABLE MOUNTAIN_T (
     CONSTRAINT PK_MOUNTAIN_T PRIMARY KEY(MOUNTAIN_NO)
 );
 
-
 -- 여행지(상품) 테이블
 CREATE TABLE PRODUCT_T(
-	PRODUCT_NO	  NUMBER		      NOT NULL,  -- 상품 번호 
-	USER_NO	      NUMBER		      NOT NULL,  -- 작성자(관리자) 번호
-    MOUNTAIN_NO   NUMBER              NOT NULL,  -- 산 번호
-	TRIP_NAME	  VARCHAR2(150 BYTE)  NOT NULL,  -- 여행이름(제목)
-	TRIP_CONTENTS CLOB		          NULL,      -- 여행내용(설명)
-	GUIDE	      VARCHAR2(100 BYTE)  NULL,      -- 가이드 정보
-	TIMETAKEN	  VARCHAR2(100 BYTE)  NULL,      -- 여행일정(소요시간 ex 당일)
-	PRIZE	      NUMBER		      NULL,      -- 가격
-	DANGER	      VARCHAR2(500 BYTE)  NULL,      -- 주의사항
-	REGISTERED_AT DATE		          NULL,      -- 등록일
-    MODIFIED_DATE DATE                NULL,      -- 수정일
-	PEOPLE	      NUMBER		      NULL,      -- 최대인원수
-	HIT	          NUMBER		      NULL,      -- 조회수
-	THUMBNAIL	  VARCHAR2(100 BYTE)  NULL,      -- 썸네일이미지
-	PLAN	      VARCHAR2(255 BYTE)  NULL,      -- 여행계획
-	STATUS	      NUMBER	          NULL,      -- 상품상태 (예약가능:0, 예약불가:1)
-    TERM_USE      VARCHAR2(500 BYTE)  NOT NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
-    CONSTRAINT PK_PRODUCT PRIMARY KEY(PRODUCT_NO),
-    CONSTRAINT FK_USER_PRODUCT FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
-    CONSTRAINT FK_MOUNTAIN_PRODUCT FOREIGN KEY(MOUNTAIN_NO) REFERENCES MOUNTAIN_T(MOUNTAIN_NO) ON DELETE SET NULL
+   PRODUCT_NO     NUMBER             NOT NULL,  -- 상품 번호 
+   USER_NO        NUMBER             NOT NULL,  -- 작성자(관리자) 번호
+   MOUNTAIN_NO    NUMBER             NOT NULL,  -- 산 번호
+   TRIP_NAME      VARCHAR2(255 BYTE) NOT NULL,  -- 여행이름(제목)
+   TRIP_CONTENTS  CLOB               NULL,      -- 여행내용(설명)
+   GUIDE          VARCHAR2(100 BYTE) NULL,      -- 가이드 정보
+   TIMETAKEN      VARCHAR2(100 BYTE) NULL,      -- 여행일정(소요시간 ex 당일)
+   PRICE          NUMBER             NULL,      -- 가격
+   DANGER         VARCHAR2(500 BYTE) NULL,      -- 주의사항
+   REGISTERED_AT  DATE               NULL,      -- 등록일
+   MODIFIED_DATE  DATE               NULL,      -- 수정일
+   PEOPLE         NUMBER             NULL,      -- 최대인원수
+   HIT            NUMBER             DEFAULT 0,      -- 조회수
+   PLAN           VARCHAR2(255 BYTE) NULL,      -- 여행계획
+   STATUS         NUMBER             NULL,      -- 상품상태 (예약가능:0, 예약불가:1)
+   TERM_USE      VARCHAR2(500 BYTE)  NULL,  -- 이용약관 (동의체크X, 약관내용을 DB에 저장해놓는 용도)
+   CONSTRAINT PK_PRODUCT PRIMARY KEY(PRODUCT_NO),
+   CONSTRAINT FK_USER_PRODUCT     FOREIGN KEY(USER_NO)     REFERENCES USER_T(USER_NO)         ON DELETE CASCADE,
+   CONSTRAINT FK_MOUNTAIN_PRODUCT FOREIGN KEY(MOUNTAIN_NO) REFERENCES MOUNTAIN_T(MOUNTAIN_NO) ON DELETE CASCADE
 );
+
+
 
 -- 상품사진첨부 테이블      
 CREATE TABLE IMAGE_T(
-    IMAGE_NO          NUMBER              NOT NULL,  -- 첨부 사진 번호
     IMAGE_PATH        VARCHAR2(300 BYTE)  NOT NULL,  -- 첨부 사진 경로
     FILESYSTEM_NAME   VARCHAR2(300 BYTE)  NOT NULL,  -- 저장 파일명
+    THUMBNAIL         NUMBER                         -- 썸네일이미지
     PRODUCT_NO        NUMBER              NOT NULL,  -- 상품 번호
-    CONSTRAINT PK_IMAGE PRIMARY KEY(IMAGE_NO),
     CONSTRAINT FK_PRODUCT_IMAGE FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE CASCADE
 );
-
- 
-
 
 -- 상품 찜 
 CREATE TABLE HEART_T ( 
 	USER_NO	   NUMBER  NOT NULL,  -- 회원 번호
 	PRODUCT_NO NUMBER  NOT NULL,  -- 상품 번호
-    CONSTRAINT FK_USER_HEART FOREIGN KEY(USER_NO) REFERENCES USER_T(USER_NO) ON DELETE CASCADE,
-    CONSTRAINT FK_PRODUCT_HEART FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE SET NULL
+    CONSTRAINT FK_USER_HEART    FOREIGN KEY(USER_NO)    REFERENCES USER_T(USER_NO)       ON DELETE CASCADE,
+    CONSTRAINT FK_PRODUCT_HEART FOREIGN KEY(PRODUCT_NO) REFERENCES PRODUCT_T(PRODUCT_NO) ON DELETE CASCADE
 );
-
 
 --**********************************************************************************
 

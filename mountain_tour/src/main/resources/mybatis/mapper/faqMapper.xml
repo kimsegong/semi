@@ -30,6 +30,36 @@
              WHERE ${column} LIKE '%' || #{query} || '%')
      WHERE RN BETWEEN #{begin} AND #{end}
   </select>
-	 
+  
+  <!-- 게시글 추가 -->
+  <insert id="insertFaq" parameterType="FaqDto">
+    INSERT INTO FAQ_T(
+        FAQ_NO
+      , TITLE
+      , CONTENTS
+      , CREATED_AT
+    ) VALUES(
+        FAQ_SEQ.NEXTVAL
+      , #{title}
+      , #{contents}
+      , SYSDATE
+    )
+  </insert>
+  
+  <!-- 게시글 수정 -->
+  <update id="updateFaq" parameterType="FaqDto">
+    UPDATE FAQ_T
+       SET TITLE = #{title}
+         , CONTENTS = #{contents}
+         , MODIFIED_AT = SYSDATE
+     WHERE FAQ_NO = #{faqNo}
+  </update>
+  
+  <!-- 게시글 삭제 -->
+  <delete id="deleteFaq" parameterType="int">
+    DELETE
+      FROM FAQ_T
+     WHERE FAQ_NO = #{faqNo}
+  </delete>
 
 </mapper>

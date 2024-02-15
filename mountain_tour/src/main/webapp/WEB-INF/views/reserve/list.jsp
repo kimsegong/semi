@@ -21,39 +21,71 @@
         <h2>예약내역목록</h2>
       </div>
       <div>
-        <table>
+        <table class="table">
           <colgroup>
-            <col style="width:30%;">
+            <col style="width:25%;">
             <col style="width:15%;">
             <col style="width:15%;">
             <col style="width:15%;">
+            <col style="width:14%;">
             <col style="width:10%;">
-            <col style="width:15%;">
           </colgroup>
           <thead>
             <tr>
               <th>예약날짜/예약번호</th>
               <th>상품명</th>
-              <th>결제금액</th>
+              <th>상품금액</th>
               <th>인원</th>
               <th>여행일정</th>
               <th>예약상태</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td id="resSche">??</td> 
-              <td id="prodName">??</td>
-              <td id="totalPrice">??</td>
-              <td id="personCnt">??</td>
-              <td id="trvlSche">??</td>
-              <td id="resStatus">??</td>
-            </tr>
+            <c:forEach items="${reserveList}" var="res" varStatus="vs">
+              <c:if test="${sessionScope.user.auth == 0}">
+                <tr>
+                  <td id="resSche">
+                    <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
+                  </td> 
+                  <td id="prodName">${res.productDto.tripName}</td>
+                  <td id="totalPrice">${res.productDto.price}~</td>
+                  <td id="personCnt">${res.reservePerson}</td>
+                  <td id="trvlSche">${res.reserveStart} / ${res.productDto.timetaken}</td>
+                  <td id="resStatus">${res.reserveStatus}</td>
+                </tr>
+              </c:if>
+              <c:if test="${sessionScope.user.userNo == res.userDto.userNo}">
+                <tr>
+                  <td id="resSche">
+                    <a href="${contextPath}/reserve/detail.do?reserveNo=${res.reserveNo}">${res.reserveDate} / ${res.reserveNo}</a>
+                  </td> 
+                  <td id="prodName">${res.productDto.tripName}</td>
+                  <td id="totalPrice">${res.productDto.price}~</td>
+                  <td id="personCnt">${res.reservePerson}</td>
+                  <td id="trvlSche">${res.reserveStart} / ${res.productDto.timetaken}</td>
+                  <c:if test="${res.reserveStatus == 0}">
+                    <td id="resStatus">정상</td>
+                  </c:if>
+                  <c:if test="${res.reserveStatus == 1}">
+                    <td id="resStatus">대기</td>
+                  </c:if>
+                  <c:if test="${res.reserveStatus == 2}">
+                    <td id="resStatus">불가</td>
+                  </c:if>
+                </tr>
+              </c:if>
+            </c:forEach>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">${paging}</td>
+            </tr>
+          </tfoot>
         </table>
       </div>
       <hr>
-      <button type="button" onclick="location.href='${contextPath}/product/list.do'">다른상품 예약하러가기</button>
+      
+      <button type="button" onclick="location.href='${contextPath}/product/list.do'" class="btn btn-success btn-lg">다른상품 예약하러가기</button>
       
 
     </div>
